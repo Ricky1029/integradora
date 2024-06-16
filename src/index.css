@@ -54,6 +54,22 @@ body {
   }
 }
 
+/* Para home.jsx */
+.body-home {
+  background-image: url('src/img/home.jpg');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+
+/* Para login.jsx */
+.body-login {
+  background-image: url('src/img/bg.png'); /* Cambia esto a la imagen que quieras usar */
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
