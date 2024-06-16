@@ -1,7 +1,3 @@
-html{
-    background-image: url('src/img/bg.png');
-}
-
 .login{
     display: flex;
     justify-content: center;

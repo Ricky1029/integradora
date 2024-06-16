@@ -5,11 +5,13 @@ import Dashboard from "../Pages/Dashboard/Dashboard"
 import Home from "../Pages/Home/Home"
 import Login from "../Pages/Login/Login"
 import Register from "../Pages/Register/Register"
+import Navbar from "../Navbar"
 
 const Router = () => {
 
   return (
     <>
+        <Navbar />
         <Routes>
             <Route index element={<Home />} />
             <Route path='/login' element={<Login />} />

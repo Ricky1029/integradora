@@ -3,10 +3,10 @@
   line-height: 1.5;
   font-weight: 400;
 
-  font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
 }
 
 a {
@@ -21,7 +21,37 @@ a:hover {
 body {
   place-items: center;
   min-width: 320px;
-  min-height: 100vh;
+  min-height: 90vh;
+}
+
+.navbar{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 10px;
+  background-color: rgb(255, 255, 255);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 1000;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  img{
+    width: 100px;
+    height: 100px;
+  }
+
+  a{
+    color: rgb(0, 0, 0);
+    font-size: 1.2rem;
+    font-weight: 500;
+    text-decoration: none;
+    margin: 0 10px;
+    margin-right: 30px;
+  
+  }
 }
 
 h1 {
