@@ -3,11 +3,16 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    margin-top: 7%;
+    margin-top: 150px;
     
     h1{
         margin-bottom: 50px;
         color: black;
+    }
+
+    p{
+        color: black;
+        margin-top: -20px;
     }
 
     form{

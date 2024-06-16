@@ -54,7 +54,6 @@ body {
   }
 }
 
-/* Para home.jsx */
 .body-home {
   background-image: url('src/img/home.jpg');
   background-repeat: no-repeat;
@@ -62,9 +61,15 @@ body {
   background-size: cover;
 }
 
-/* Para login.jsx */
 .body-login {
-  background-image: url('src/img/bg.png'); /* Cambia esto a la imagen que quieras usar */
+  background-image: url('src/img/bg.png');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+
+.body-register {
+  background-image: url('src/img/bg.png');
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;

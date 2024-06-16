@@ -1,7 +1,16 @@
-import React from 'react'
+import { React, useEffect } from 'react'
 import './register.css'
 
 const Register = () => {
+  
+  useEffect(() => {
+    document.body.classList.add('body-register');
+
+    return () => {
+        document.body.classList.remove('body-register');
+    };
+}, []);
+
   return (
     <div className='register'>
         <h1>Create new Account</h1>
