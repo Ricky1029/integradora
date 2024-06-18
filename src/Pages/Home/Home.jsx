@@ -12,7 +12,11 @@ const Home = () => {
   }, []);
 
   return (
-    <div className='home'>Home</div>
+    <div className='home'>
+      <div className="title">Welcome to Vault-Gate!</div>
+      <div className="subtitle">The best option for your family's protection and yours</div>
+      <button>Get Started</button>
+    </div>
   )
 }
 
