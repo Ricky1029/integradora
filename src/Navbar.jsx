@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
-  const isLoggedIn = false
+  const isLoggedIn = true
   const navigate = useNavigate();
 
   const navDashboard = e => {
@@ -16,8 +16,7 @@ const Navbar = () => {
     });
 
     onResetForm();
-};
-
+  };
 
   return (
     <div className="navbar">
