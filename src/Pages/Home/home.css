@@ -29,5 +29,6 @@
         color: white;
         cursor: pointer;
         margin-top: 20px;
+        max-width: fit-content;
     }
 }
