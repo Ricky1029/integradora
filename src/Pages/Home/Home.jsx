@@ -1,5 +1,6 @@
 import './home.css'
 import { React, useEffect } from 'react'
+import { Link } from 'react-router-dom';
 
 const Home = () => {
 
@@ -15,7 +16,7 @@ const Home = () => {
     <div className='home'>
       <div className="title">Welcome to Vault-Gate!</div>
       <div className="subtitle">The best option for your family's protection and yours</div>
-      <button>Get Started</button>
+      <Link to='/register' className='btn'>Get Started</Link>
     </div>
   )
 }
