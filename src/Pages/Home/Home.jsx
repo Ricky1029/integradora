@@ -1,6 +1,6 @@
-import { React, useEffect } from 'react'
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './home.css'
+import './home.css';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -26,4 +26,4 @@ const Home = () => {
   )
 }
 
-export default Home
+export default Home;
