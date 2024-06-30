@@ -35,11 +35,16 @@ const Dashboard = () => {
       </div>
       <div className="content">
         <div className="top">
-          <img src="src/img/VAULT.png" alt="" className='vault' />
-          <img src="src/img/campana.png" alt="" className='campana' />
+          <div className="left">
+            <img src="src/img/VAULT.png" alt="" className='vault' />
+          </div>
+          <div className="right">
+            <img src="src/img/campana.png" alt="" className='campana' />
+            <img src="src/img/user.png" alt="" className='user'/>
+          </div>
         </div>
         <h1>Bienvenido, {username}!</h1>
-        <h2>Dashboard</h2>
+        <h2>Estas son algunas de tus estadisticas semanales.</h2>
       </div>
     </div>
   );
