@@ -1,37 +1,21 @@
+// Dashboard.js
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { auth, db, doc, getDoc } from '../../firebaseConfig';
 import './dashboard.css';
 
 const Dashboard = () => {
-  const [username, setUsername] = useState('');
+  const [username, setUsername] = useState('Usuario');
 
   useEffect(() => {
-    const fetchUserName = async () => {
-      try {
-        const user = auth.currentUser;
-        if (user) {
-          const userDoc = await getDoc(doc(db, 'users', user.uid));
-          if (userDoc.exists()) {
-            setUsername(userDoc.data().username);
-          } else {
-            console.log('No such document!');
-          }
-        }
-      } catch (error) {
-        console.error('Error fetching user data:', error);
-      }
-    };
-
-    fetchUserName();
+    // Aquí iría la lógica para obtener los datos del usuario
   }, []);
 
   return (
     <div className='dashboard'>
       <div className="list">
-        <Link to="/"><img src="src/img/dashboard.png" alt="" />Dashboard</Link>
-        <Link to="/"><img src="src/img/puerta.png" alt="" />Garage</Link>
-        <Link to="/"><img src="src/img/invitado.png" alt="" />Guests</Link>
+        <Link to="/"><img src="src/img/dashboard.png" alt="" />Panel</Link>
+        <Link to="/"><img src="src/img/puerta.png" alt="" />Garaje</Link>
+        <Link to="/"><img src="src/img/invitado.png" alt="" />Invitados</Link>
       </div>
       <div className="content">
         <div className="top">
@@ -44,7 +28,7 @@ const Dashboard = () => {
           </div>
         </div>
         <h1>Bienvenido, {username}!</h1>
-        <h2>Estas son algunas de tus estadisticas semanales.</h2>
+        <h2>Estas son algunas de tus estadísticas semanales.</h2>
       </div>
     </div>
   );
