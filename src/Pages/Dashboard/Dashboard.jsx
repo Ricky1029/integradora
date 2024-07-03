@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './dashboard.css';
+import BarChart from '../../Charts/Bar';
 
 const Dashboard = () => {
   const [username, setUsername] = useState('Usuario');
@@ -28,7 +29,8 @@ const Dashboard = () => {
           </div>
         </div>
         <h1>Bienvenido, {username}!</h1>
-        <h2>Estas son algunas de tus estadísticas semanales.</h2>
+        <h2>Estas son algunas de tus estadísticas mensuales.</h2>
+        <BarChart />
       </div>
     </div>
   );
