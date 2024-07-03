@@ -28,7 +28,7 @@ const Register = () => {
     };
 
     try {
-      const response = await fetch('http://localhost:3001/usuarios', {
+      const response = await fetch('https://api-mysql-s9hw.onrender.com/usuarios', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
