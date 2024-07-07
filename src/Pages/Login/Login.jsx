@@ -1,7 +1,7 @@
 // Login.jsx
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './login.css';
+import './login.css'
 
 const Login = () => {
   const [correoElectronico, setCorreoElectronico] = useState('');
@@ -10,7 +10,7 @@ const Login = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    document.body.classList.add('body-login');
+    document.body.classList.add('body-login')
 
     return () => {
       document.body.classList.remove('body-login');
@@ -30,7 +30,9 @@ const Login = () => {
       });
 
       if (response.ok) {
-        // Inicio de sesión exitoso, redirigir a la página principal o dashboard
+        // Inicio de sesión exitoso, obtener token y almacenarlo en localStorage
+        const token = await response.json();
+        localStorage.setItem('token', token);
         navigate('/dashboard');
         console.log("estas dentro");
       } else {

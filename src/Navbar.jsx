@@ -7,9 +7,15 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Aquí iría la lógica para verificar si el usuario está logueado
-    setIsLoggedIn(true); // Establece esto según sea necesario
-  }, []);
+    // Verificar si el usuario está logueado
+    const token = localStorage.getItem('token');
+    if (token) {
+      setIsLoggedIn(true);
+    }
+    else{
+      setIsLoggedIn(false);
+    }
+  }, [isLoggedIn]);
 
   const navDashboard = (e) => {
     e.preventDefault();
@@ -22,13 +28,15 @@ const Navbar = () => {
   };
 
   const handleLogout = async () => {
-    // Aquí iría la lógica para cerrar sesión
+    // Cerrar sesión, eliminar token de localStorage
+    localStorage.removeItem('token');
+    setIsLoggedIn(false);
     navigate('/login');
   };
 
   return (
     <div className="navbar">
-      {isLoggedIn ? (
+      {isLoggedIn? (
         <div className='navbar'>
           <div className='navbar__left'>
             <a href='/'><img src="src/img/VAULT.png" alt="" /></a>

@@ -28,9 +28,11 @@ const Dashboard = () => {
             <img src="src/img/user.png" alt="" className='user'/>
           </div>
         </div>
-        <h1>Bienvenido {username}!</h1>
-        <h2>Estas son algunas de tus estadísticas mensuales.</h2>
-        <BarChart />
+        <h1>Estado del Garaje</h1>
+        <h2>Está abierto :O</h2>
+        <div className="garage">
+            <img src="src/img/garage.jpg" alt="" />
+        </div>
       </div>
     </div>
   );
