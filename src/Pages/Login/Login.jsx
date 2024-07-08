@@ -1,21 +1,12 @@
-// Login.jsx
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './login.css'
+import './login.css';
 
 const Login = () => {
   const [correoElectronico, setCorreoElectronico] = useState('');
   const [contrasena, setContrasena] = useState('');
   const [mensajeError, setMensajeError] = useState('');
   const navigate = useNavigate();
-
-  useEffect(() => {
-    document.body.classList.add('body-login')
-
-    return () => {
-      document.body.classList.remove('body-login');
-    };
-  }, []);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -30,13 +21,13 @@ const Login = () => {
       });
 
       if (response.ok) {
-        // Inicio de sesión exitoso, obtener token y almacenarlo en localStorage
-        const token = await response.json();
-        localStorage.setItem('token', token);
+        const userData = await response.json();
+        console.log('Datos del usuario recibidos:', userData); // Verifica los datos del usuario en la consola
+        localStorage.setItem('userData', JSON.stringify(userData)); // Guarda los datos del usuario como cadena JSON
+        localStorage.setItem('token', 'some-token'); // Simula el almacenamiento del token
+        console.log('Datos del usuario guardados en localStorage:', userData); // Verifica el éxito al guardar en localStorage
         navigate('/dashboard');
-        console.log("estas dentro");
       } else {
-        // Error al iniciar sesión, mostrar mensaje de error
         const errorData = await response.json();
         setMensajeError(errorData.message || 'Error al iniciar sesión');
       }

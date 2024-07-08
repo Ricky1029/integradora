@@ -1,6 +1,6 @@
-// Navbar.js
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+
 
 const Navbar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -11,11 +11,10 @@ const Navbar = () => {
     const token = localStorage.getItem('token');
     if (token) {
       setIsLoggedIn(true);
-    }
-    else{
+    } else {
       setIsLoggedIn(false);
     }
-  }, [isLoggedIn]);
+  }, []);
 
   const navDashboard = (e) => {
     e.preventDefault();
@@ -27,19 +26,20 @@ const Navbar = () => {
     });
   };
 
-  const handleLogout = async () => {
-    // Cerrar sesión, eliminar token de localStorage
+  const handleLogout = () => {
+    // Cerrar sesión, eliminar token y datos del usuario de localStorage
     localStorage.removeItem('token');
+    localStorage.removeItem('userData');
     setIsLoggedIn(false);
     navigate('/login');
   };
 
   return (
     <div className="navbar">
-      {isLoggedIn? (
+      {isLoggedIn ? (
         <div className='navbar'>
           <div className='navbar__left'>
-            <a href='/'><img src="src/img/VAULT.png" alt="" /></a>
+            <a href='/'><img src="src/img/VAULT.png" alt="Logo" /></a>
           </div>
           <div className='navbar__right'>
             <a href='/'>Inicio</a>
@@ -50,7 +50,7 @@ const Navbar = () => {
       ) : (
         <div className='navbar'>
           <div className='navbar__left'>
-            <a href='/'><img src="src/img/VAULT.png" alt="" /></a>
+            <a href='/'><img src="src/img/VAULT.png" alt="Logo" /></a>
           </div>
           <div className='navbar__right'>
             <a href='/'>Inicio</a>

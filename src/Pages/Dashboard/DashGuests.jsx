@@ -1,14 +1,31 @@
-// Dashboard.js
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './dashboard.css';
-import BarChart from '../../Charts/Bar';
+
 
 const Dashboard = () => {
-  const [username, setUsername] = useState('Usuario');
+  const [invitados, setInvitados] = useState([]);
 
   useEffect(() => {
-    // Aquí iría la lógica para obtener los datos del usuario
+    // Obtener datos del usuario desde localStorage
+    const userData = JSON.parse(localStorage.getItem('userData'));
+    if (userData && userData.usuario && userData.usuario.nombre) {
+      const nombreU = userData.usuario.nombre; // Aquí ajusta según la estructura de tus datos
+      // Construir la URL de la API de invitados con el nombreU
+      console.log("nombre"+nombreU)
+      const apiUrl = `https://api-mysql-s9hw.onrender.com/invitados/${nombreU}`;
+
+      // Realizar la solicitud GET a la API
+      fetch(apiUrl)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then(data => setInvitados(data))
+        .catch(error => console.error('Error fetching data:', error));
+    }
   }, []);
 
   return (
@@ -31,36 +48,13 @@ const Dashboard = () => {
         <h1>Invitados</h1>
         <h2>Estas personas son tu invitados</h2>
         <div className="invitados">
-            <div className="invitado">
-                <img src="src/img/user.png" alt="" />
-                <p>Nombre: Invitado 1</p>
-                <p>Codigo: 123</p>
+          {invitados.map(invitado => (
+            <div className="invitado" key={invitado.idinvitado}>
+              <img src="src/img/user.png" alt="" />
+              <p>Nombre: {invitado.nombreinv}</p>
+              <p>Codigo: {invitado.codigoa}</p>
             </div>
-            <div className="invitado">
-                <img src="src/img/user.png" alt="" />
-                <p>Nombre: Invitado 2</p>
-                <p>Codigo: 456</p>
-            </div>
-            <div className="invitado">
-                <img src="src/img/user.png" alt="" />
-                <p>Nombre: Invitado 3</p>
-                <p>Codigo: 789</p>
-            </div>
-            <div className="invitado">
-                <img src="src/img/user.png" alt="" />
-                <p>Nombre: Invitado 4</p>
-                <p>Codigo: 101</p>
-            </div>
-            <div className="invitado">
-                <img src="src/img/user.png" alt="" />
-                <p>Nombre: Invitado 5</p>
-                <p>Codigo: 101</p>
-            </div>
-            <div className="invitado">
-                <img src="src/img/user.png" alt="" />
-                <p>Nombre: Invitado 6</p>
-                <p>Codigo: 101</p>
-            </div>
+          ))}
         </div>
       </div>
     </div>
