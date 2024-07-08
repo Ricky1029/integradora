@@ -73,6 +73,31 @@
       text-align: left;
     }
 
+    form{
+      display: flex;
+      flex-direction: row;
+      margin-bottom: 20px;
+
+      .left{
+        input{
+          width: 80%;
+          height: 40px;
+          margin-bottom: 20px;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+        }
+      }
+
+      .right{
+        button{
+          width: 120%;
+          height: 40px;
+          color: white;
+          cursor: pointer;
+        }
+      }
+    }
+
     .invitados{
       display: flex;
       flex-direction: row;

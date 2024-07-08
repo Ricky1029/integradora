@@ -9,6 +9,11 @@ const Dashboard = () => {
 
   useEffect(() => {
     // Aquí iría la lógica para obtener los datos del usuario
+    const userData = JSON.parse(localStorage.getItem('userData'));
+    
+    if (userData && userData.usuario && userData.usuario.nombre) {
+      setUsername(userData.usuario.nombre);
+    }
   }, []);
 
   return (

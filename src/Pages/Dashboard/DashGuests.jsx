@@ -27,6 +27,7 @@ const Dashboard = () => {
         .catch(error => console.error('Error fetching data:', error));
     }
   }, []);
+  
 
   return (
     <div className='dashboard'>
@@ -46,6 +47,16 @@ const Dashboard = () => {
           </div>
         </div>
         <h1>Invitados</h1>
+        <h2>Agregar invitados</h2>
+        <form>
+          <div className="left">
+            <input type="text" placeholder="Nombre del invitado" id='nombreInvitado'/>
+            <input type="text" placeholder="Codigo numerico de 4 digitos" id='codigoAcceso'/>
+          </div>
+          <div className="right">
+            <button>Agregar invitado</button>
+          </div>
+        </form>
         <h2>Estas personas son tu invitados</h2>
         <div className="invitados">
           {invitados.map(invitado => (
