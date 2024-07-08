@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './login.css';
 
@@ -7,6 +7,13 @@ const Login = () => {
   const [contrasena, setContrasena] = useState('');
   const [mensajeError, setMensajeError] = useState('');
   const navigate = useNavigate();
+  
+  useEffect(() => {
+    document.body.classList.add('body-login');
+    return () => {
+    document.body.classList.remove('body-login');
+    };
+  }, []);
 
   const handleLogin = async (e) => {
     e.preventDefault();
