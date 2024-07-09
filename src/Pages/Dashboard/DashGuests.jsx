@@ -60,6 +60,10 @@ const Dashboard = () => {
       console.error('Error:', error);
       alert('Hubo un problema al agregar el invitado');
     });
+
+    // actualizar campos a vacio
+    document.getElementById('nombreInvitado').value = '';
+    document.getElementById('codigoAcceso').value = '';
   };
 
   return (
@@ -84,8 +88,13 @@ const Dashboard = () => {
         <form onSubmit={handleSubmit}>
           <div className="left">
             <input type="text" placeholder="Nombre del invitado" id='nombreInvitado' required />
+<<<<<<< HEAD
             <input type="text" placeholder="Codigo numerico de 4 digitos" id='codigoAcceso' hidden value={generateRandomCode()} disabled />
             <input type="text" placeholder="Usuario" hidden id='usuario' value={userData.usuario ? userData.usuario.nombre : ''} disabled />
+=======
+            <input type="text" placeholder="Codigo numerico de 4 digitos" id='codigoAcceso' required />
+            <input type="text" placeholder="Usuario" id='usuario' hidden value={userData.usuario ? userData.usuario.nombre : ''} disabled />
+>>>>>>> 2c6d691eb9e6cb9b3654f184cc974bcbcbf9821a
           </div>
           <div className="right">
             <button type="submit">Agregar invitado</button>
