@@ -77,8 +77,7 @@ const Dashboard = () => {
           <div className="left">
             <input type="text" placeholder="Nombre del invitado" id='nombreInvitado' required />
             <input type="text" placeholder="Codigo numerico de 4 digitos" id='codigoAcceso' required />
-            <p>Usuario Agregando Invitados</p>
-            <input type="text" placeholder="Usuario" id='usuario' value={userData.usuario ? userData.usuario.nombre : ''} disabled />
+            <input type="text" placeholder="Usuario" id='usuario' hidden value={userData.usuario ? userData.usuario.nombre : ''} disabled />
           </div>
           <div className="right">
             <button type="submit">Agregar invitado</button>
