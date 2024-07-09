@@ -25,11 +25,19 @@ const Dashboard = () => {
     }
   }, []);
 
+  const generateRandomCode = () => {
+    let code = '';
+    for (let i = 0; i < 4; i++) {
+      code += Math.floor(Math.random() * 4) + 1; // Genera un número aleatorio entre 1 y 4
+    }
+    return code;
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
     
     const nombreinv = document.getElementById('nombreInvitado').value;
-    const codigoa = document.getElementById('codigoAcceso').value;
+    const codigoa = generateRandomCode();
     const nombreU = userData.usuario ? userData.usuario.nombre : '';
 
     fetch('https://api-mysql-s9hw.onrender.com/invitados', {
@@ -76,9 +84,8 @@ const Dashboard = () => {
         <form onSubmit={handleSubmit}>
           <div className="left">
             <input type="text" placeholder="Nombre del invitado" id='nombreInvitado' required />
-            <input type="text" placeholder="Codigo numerico de 4 digitos" id='codigoAcceso' required />
-            <p>Usuario Agregando Invitados</p>
-            <input type="text" placeholder="Usuario" id='usuario' value={userData.usuario ? userData.usuario.nombre : ''} disabled />
+            <input type="text" placeholder="Codigo numerico de 4 digitos" id='codigoAcceso' hidden value={generateRandomCode()} disabled />
+            <input type="text" placeholder="Usuario" hidden id='usuario' value={userData.usuario ? userData.usuario.nombre : ''} disabled />
           </div>
           <div className="right">
             <button type="submit">Agregar invitado</button>
