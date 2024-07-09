@@ -52,6 +52,10 @@ const Dashboard = () => {
       console.error('Error:', error);
       alert('Hubo un problema al agregar el invitado');
     });
+
+    // actualizar campos a vacio
+    document.getElementById('nombreInvitado').value = '';
+    document.getElementById('codigoAcceso').value = '';
   };
 
   return (
