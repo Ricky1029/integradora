@@ -2,15 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './dashboard.css';
 
-
 const Dashboard = () => {
   const [invitados, setInvitados] = useState([]);
+  const [userData, setUserData] = useState({}); // Define userData as a state variable
 
   useEffect(() => {
     // Obtener datos del usuario desde localStorage
-    const userData = JSON.parse(localStorage.getItem('userData'));
-    if (userData && userData.usuario && userData.usuario.nombre) {
-      const nombreU = userData.usuario.nombre; // Aquí ajusta según la estructura de tus datos
+    const userDataFromLocalStorage = JSON.parse(localStorage.getItem('userData'));
+    if (userDataFromLocalStorage && userDataFromLocalStorage.usuario && userDataFromLocalStorage.usuario.nombre) {
+      setUserData(userDataFromLocalStorage); // Update userData state
+      const nombreU = userDataFromLocalStorage.usuario.nombre; 
       // Construir la URL de la API de invitados con el nombreU
       console.log("nombre"+nombreU)
       const apiUrl = `https://api-mysql-s9hw.onrender.com/invitados/${nombreU}`;
@@ -27,7 +28,6 @@ const Dashboard = () => {
         .catch(error => console.error('Error fetching data:', error));
     }
   }, []);
-  
 
   return (
     <div className='dashboard'>
@@ -52,6 +52,9 @@ const Dashboard = () => {
           <div className="left">
             <input type="text" placeholder="Nombre del invitado" id='nombreInvitado'/>
             <input type="text" placeholder="Codigo numerico de 4 digitos" id='codigoAcceso'/>
+            {/* agrega un campo no modificable donde se muestre el usuario iniciado sesion */}
+            <p>Usuario Agregando Invitados</p>
+            <input type="text" placeholder="Usuario" id='usuario' value={userData.usuario ? userData.usuario.nombre : ''} disabled/>
           </div>
           <div className="right">
             <button>Agregar invitado</button>
