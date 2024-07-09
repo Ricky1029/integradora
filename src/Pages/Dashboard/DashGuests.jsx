@@ -4,19 +4,15 @@ import './dashboard.css';
 
 const Dashboard = () => {
   const [invitados, setInvitados] = useState([]);
-  const [userData, setUserData] = useState({}); // Define userData as a state variable
+  const [userData, setUserData] = useState({});
 
   useEffect(() => {
-    // Obtener datos del usuario desde localStorage
     const userDataFromLocalStorage = JSON.parse(localStorage.getItem('userData'));
     if (userDataFromLocalStorage && userDataFromLocalStorage.usuario && userDataFromLocalStorage.usuario.nombre) {
-      setUserData(userDataFromLocalStorage); // Update userData state
-      const nombreU = userDataFromLocalStorage.usuario.nombre; 
-      // Construir la URL de la API de invitados con el nombreU
-      console.log("nombre"+nombreU)
+      setUserData(userDataFromLocalStorage);
+      const nombreU = userDataFromLocalStorage.usuario.nombre;
       const apiUrl = `https://api-mysql-s9hw.onrender.com/invitados/${nombreU}`;
 
-      // Realizar la solicitud GET a la API
       fetch(apiUrl)
         .then(response => {
           if (!response.ok) {
@@ -28,6 +24,35 @@ const Dashboard = () => {
         .catch(error => console.error('Error fetching data:', error));
     }
   }, []);
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    
+    const nombreinv = document.getElementById('nombreInvitado').value;
+    const codigoa = document.getElementById('codigoAcceso').value;
+    const nombreU = userData.usuario ? userData.usuario.nombre : '';
+
+    fetch('https://api-mysql-s9hw.onrender.com/invitados', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ nombreinv, codigoa, nombreU })
+    })
+    .then(response => response.text())
+    .then(data => {
+      alert(data);
+      // Opcionalmente, puedes volver a obtener los datos de los invitados para actualizar la lista
+      const apiUrl = `https://api-mysql-s9hw.onrender.com/invitados/${nombreU}`;
+      fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => setInvitados(data));
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      alert('Hubo un problema al agregar el invitado');
+    });
+  };
 
   return (
     <div className='dashboard'>
@@ -48,16 +73,15 @@ const Dashboard = () => {
         </div>
         <h1>Invitados</h1>
         <h2>Agregar invitados</h2>
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className="left">
-            <input type="text" placeholder="Nombre del invitado" id='nombreInvitado'/>
-            <input type="text" placeholder="Codigo numerico de 4 digitos" id='codigoAcceso'/>
-            {/* agrega un campo no modificable donde se muestre el usuario iniciado sesion */}
+            <input type="text" placeholder="Nombre del invitado" id='nombreInvitado' required />
+            <input type="text" placeholder="Codigo numerico de 4 digitos" id='codigoAcceso' required />
             <p>Usuario Agregando Invitados</p>
-            <input type="text" placeholder="Usuario" id='usuario' value={userData.usuario ? userData.usuario.nombre : ''} disabled/>
+            <input type="text" placeholder="Usuario" id='usuario' value={userData.usuario ? userData.usuario.nombre : ''} disabled />
           </div>
           <div className="right">
-            <button>Agregar invitado</button>
+            <button type="submit">Agregar invitado</button>
           </div>
         </form>
         <h2>Estas personas son tu invitados</h2>
