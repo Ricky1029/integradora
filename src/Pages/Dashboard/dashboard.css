@@ -91,7 +91,9 @@
       .right{
         button{
           width: 120%;
-          height: 40px;
+          height: 40px; /* Ajusta el height para que coincida con el input */
+          margin-top: 2px; /* Elimina el margen superior */
+          margin-bottom: 0; /* Elimina el margen inferior */
           color: white;
           cursor: pointer;
         }
