@@ -1,4 +1,3 @@
-// Dashboard.js
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './dashboard.css';
@@ -6,13 +5,17 @@ import BarChart from '../../Charts/Bar';
 
 const Dashboard = () => {
   const [username, setUsername] = useState('Usuario');
+  const [apiUrl, setApiUrl] = useState('');
 
   useEffect(() => {
-    // Aquí iría la lógica para obtener los datos del usuario
+    // Lógica para obtener la URL de la API según el usuario logueado
     const userData = JSON.parse(localStorage.getItem('userData'));
     
     if (userData && userData.usuario && userData.usuario.nombre) {
-      setUsername(userData.usuario.nombre);
+      const nombreU = userData.usuario.nombre;
+      const apiUrl = `https://api-mysql-s9hw.onrender.com/invitados/${nombreU}`;
+      setApiUrl(apiUrl);
+      setUsername(nombreU);
     }
   }, []);
 
@@ -26,7 +29,7 @@ const Dashboard = () => {
       <div className="content">
         <h1>Bienvenido {username}!</h1>
         <h2>Estas son algunas de tus estadísticas mensuales.</h2>
-        <BarChart />
+        {apiUrl && <BarChart apiUrl={apiUrl} />}
       </div>
     </div>
   );
