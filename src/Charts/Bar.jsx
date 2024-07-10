@@ -1,85 +1,61 @@
 import React, { useState, useEffect } from 'react';
-import { Chart as ChartJS, BarElement, CategoryScale, LinearScale } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement
-);
+const BarChart = ({ apiUrl }) => {
+  const [topInvitados, setTopInvitados] = useState([]);
 
-const BarChart = () => {
-  const [chart, setChart] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(apiUrl);
+        const data = await response.json();
 
-  const Utils = {
-    months: ({ count }) => {
-      const months = [];
-      for (let i = 0; i < count; i++) {
-        months.push(`${i + 1} month`);
+        // Procesar los datos para contar las veces que aparece cada invitado
+        const invitadosFrecuentes = {};
+        data.forEach((invitado) => {
+          const nombreInvitado = invitado.nombreinv;
+          invitadosFrecuentes[nombreInvitado] = (invitadosFrecuentes[nombreInvitado] || 0) + 1;
+        });
+
+        // Convertir el objeto a un array y ordenarlo por frecuencia
+        const sortedInvitados = Object.entries(invitadosFrecuentes)
+          .sort((a, b) => b[1] - a[1])
+          .slice(0, 5); // Tomar solo los primeros 5
+
+        setTopInvitados(sortedInvitados);
+      } catch (error) {
+        console.error('Error fetching data:', error);
       }
-      return months;
-    },
-  };
+    };
 
-  const labels = Utils.months({ count: 7 });
+    fetchData();
+  }, [apiUrl]);
+
+  // Preparar los datos para el gráfico
+  const labels = topInvitados.map(([nombre]) => nombre);
   const data = {
     labels: labels,
     datasets: [{
-      label: 'My First Dataset',
-      data: [65, 59, 80, 81, 56, 55, 40],
-      backgroundColor: [
-        'rgba(255, 99, 132, 0.2)',
-        'rgba(255, 159, 64, 0.2)',
-        'rgba(255, 205, 86, 0.2)',
-        'rgba(75, 192, 192, 0.2)',
-        'rgba(54, 162, 235, 0.2)',
-        'rgba(153, 102, 255, 0.2)',
-        'rgba(201, 203, 207, 0.2)'
-      ],
-      borderColor: [
-        'rgb(255, 99, 132)',
-        'rgb(255, 159, 64)',
-        'rgb(255, 205, 86)',
-        'rgb(75, 192, 192)',
-        'rgb(54, 162, 235)',
-        'rgb(153, 102, 255)',
-        'rgb(201, 203, 207)'
-      ],
+      label: 'Invitados más frecuentes',
+      data: topInvitados.map(([_, frecuencia]) => frecuencia),
+      backgroundColor: 'rgba(75, 192, 192, 0.2)',
+      borderColor: 'rgba(75, 192, 192, 1)',
       borderWidth: 1
     }]
   };
 
-  const config = {
-    type: 'bar',
-    data: data,
-    options: {
-      scales: {
-        y: {
-          beginAtZero: true
-        }
+  const options = {
+    scales: {
+      y: {
+        beginAtZero: true
       }
-    },
+    }
   };
-
-  var options = {
-    maintainAspectRatio: false,
-    scales: {},
-    legend: {
-      labels: {
-        fontSize: 25,
-      },
-    },
-  };
-
-  console.log("chart", chart);
 
   return (
     <div>
-      <Bar
-        data={data}
-        height={400}
-        options={options}
-      />
+      <h2>Top 5 Invitados más frecuentes</h2>
+      <Bar data={data} options={options} />
     </div>
   );
 };
