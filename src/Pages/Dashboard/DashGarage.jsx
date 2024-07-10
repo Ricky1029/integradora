@@ -19,15 +19,6 @@ const Dashboard = () => {
         <Link to="/guests"><img src="src/img/invitado.png" alt="" />Invitados</Link>
       </div>
       <div className="content">
-        <div className="top">
-          <div className="left">
-            <img src="src/img/VAULT.png" alt="" className='vault' />
-          </div>
-          <div className="right">
-            <img src="src/img/campana.png" alt="" className='campana' />
-            <img src="src/img/user.png" alt="" className='user'/>
-          </div>
-        </div>
         <h1>Estado del Garaje</h1>
         <h2>Está abierto :O</h2>
         <div className="garage">

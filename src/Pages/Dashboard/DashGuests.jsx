@@ -70,15 +70,6 @@ const Dashboard = () => {
         <Link to="/guests"><img src="src/img/invitado.png" alt="" />Invitados</Link>
       </div>
       <div className="content">
-        <div className="top">
-          <div className="left">
-            <img src="src/img/VAULT.png" alt="" className='vault' />
-          </div>
-          <div className="right">
-            <img src="src/img/campana.png" alt="" className='campana' />
-            <img src="src/img/user.png" alt="" className='user'/>
-          </div>
-        </div>
         <h1>Invitados</h1>
         <h2>Agregar invitados</h2>
         <form onSubmit={handleSubmit}>
@@ -98,6 +89,7 @@ const Dashboard = () => {
               <img src="src/img/user.png" alt="" />
               <p>Nombre: {invitado.nombreinv}</p>
               <p>Codigo: {invitado.codigoa}</p>
+              <button>Eliminar</button>
             </div>
           ))}
         </div>
