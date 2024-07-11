@@ -62,6 +62,27 @@ const Dashboard = () => {
     });
   };
 
+  const handleDelete = (idinvitado) => {
+    const nombreU = userData.usuario ? userData.usuario.nombre : '';
+
+    fetch(`https://api-mysql-s9hw.onrender.com/invitados/${idinvitado}`, {
+      method: 'DELETE'
+    })
+    .then(response => response.text())
+    .then(data => {
+      alert(data);
+      // Vuelve a obtener los datos de los invitados para actualizar la lista
+      const apiUrl = `https://api-mysql-s9hw.onrender.com/invitados/${nombreU}`;
+      fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => setInvitados(data));
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      alert('Hubo un problema al eliminar el invitado');
+    });
+  };
+
   return (
     <div className='dashboard'>
       <div className="list">
@@ -82,14 +103,14 @@ const Dashboard = () => {
             <button type="submit">Agregar invitado</button>
           </div>
         </form>
-        <h2>Estas personas son tu invitados</h2>
+        <h2>Estas personas son tus invitados</h2>
         <div className="invitados">
           {invitados.map(invitado => (
             <div className="invitado" key={invitado.idinvitado}>
               <img src="src/img/user.png" alt="" />
               <p>Nombre: {invitado.nombreinv}</p>
               <p>Codigo: {invitado.codigoa}</p>
-              <button>Eliminar</button>
+              <button onClick={() => handleDelete(invitado.idinvitado)}>Eliminar</button>
             </div>
           ))}
         </div>
