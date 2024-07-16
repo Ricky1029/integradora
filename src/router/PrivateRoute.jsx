@@ -1,7 +1,8 @@
-import { Navigate, useLocation } from 'react-router-dom';
+const PrivateRoute = ({ children }) => {
+	const userData = localStorage.getItem('userData');
+	const token = localStorage.getItem('token');
 
-export const PrivateRoute = ({ children }) => {
-	const { state } = useLocation();
-
-	return state?.logged ? children : <Navigate to='/login' />;
+	return userData && token? children : <Navigate to='/login' />;
 };
+
+export default PrivateRoute;

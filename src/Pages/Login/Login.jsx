@@ -29,11 +29,9 @@ const Login = () => {
 
       if (response.ok) {
         const userData = await response.json();
-        console.log('Datos del usuario recibidos:', userData); // Verifica los datos del usuario en la consola
-        localStorage.setItem('userData', JSON.stringify(userData)); // Guarda los datos del usuario como cadena JSON
-        localStorage.setItem('token', 'some-token'); // Simula el almacenamiento del token
-        console.log('Datos del usuario guardados en localStorage:', userData); // Verifica el éxito al guardar en localStorage
-        navigate('/dashboard');
+        localStorage.setItem('userData', JSON.stringify(userData));
+        localStorage.setItem('token', 'some-token');
+        navigate('/dashboard', { state: { logged: true } });
       } else {
         const errorData = await response.json();
         setMensajeError(errorData.message || 'Error al iniciar sesión');
