@@ -92,6 +92,16 @@ button {
 
 }
 
+.bars{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+  height: 65vh;
+
+  overflow: scroll;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;

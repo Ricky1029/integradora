@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Chart as ChartJS, BarElement, CategoryScale, LinearScale } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
+import '../index.css';
 
 // Registrar escalas necesarias para Chart.js v3
 ChartJS.register(CategoryScale, LinearScale, BarElement);
@@ -108,7 +109,7 @@ const BarChart = ({ apiUrl }) => {
         position: 'top',
       },
       tooltip: {
-        enabled: false // Deshabilitar tooltips predeterminados
+        enabled: true // Deshabilitar tooltips predeterminados
       }
     },
     onClick: handleClick,
@@ -135,7 +136,7 @@ const BarChart = ({ apiUrl }) => {
     `Invitados: ${detallesDia.join(', ')}` : 'No hay registros para este día.';
 
   return (
-    <div>
+    <div className='bars'>
       <h2>Top 5 Invitados más frecuentes</h2>
       <Bar data={topInvitadosData} options={topInvitadosOptions} />
 
