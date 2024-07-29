@@ -137,11 +137,13 @@ const BarChart = ({ apiUrl }) => {
 
   return (
     <div className='bars'>
-      <h2>Top 5 Invitados más frecuentes</h2>
-      <Bar data={topInvitadosData} options={topInvitadosOptions} />
+        <h2>Top 5 Invitados más frecuentes</h2>
+        <Bar data={topInvitadosData} options={topInvitadosOptions} />
 
-      <h2>Registros de Invitados por Día</h2>
-      <Bar data={dataByDay} options={dataByDayOptions} />
+        <br /><br /><br /><br />
+
+        <h2>Registros de Invitados por Día</h2>
+        <Bar data={dataByDay} options={dataByDayOptions} />
 
       {selectedDay !== null && (
         <div className="detalle-dia">
