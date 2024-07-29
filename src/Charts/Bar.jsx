@@ -98,9 +98,7 @@ const BarChart = ({ apiUrl }) => {
         position: 'top',
       },
       tooltip: {
-<<<<<<< HEAD
-        enabled: true // Deshabilitar tooltips predeterminados
-=======
+        enabled: false, // Deshabilitar tooltips predeterminados
         callbacks: {
           label: function(context) {
             const day = context.label;
@@ -108,7 +106,6 @@ const BarChart = ({ apiUrl }) => {
             return `Día ${day}: ${nombres.join(', ')}`;
           }
         }
->>>>>>> af7f35293640bdee1fc0ba107c416de3bfa49329
       }
     },
     scales: {
