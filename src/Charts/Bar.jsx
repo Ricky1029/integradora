@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Chart as ChartJS, BarElement, CategoryScale, LinearScale } from 'chart.js';
+import { Chart as ChartJS, BarElement, CategoryScale, LinearScale, Tooltip, Legend } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 import '../index.css';
 
-// Registrar escalas necesarias para Chart.js v3
-ChartJS.register(CategoryScale, LinearScale, BarElement);
+// Registrar las escalas necesarias y el plugin
+ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
 
 const BarChart = ({ apiUrl }) => {
   const [topInvitados, setTopInvitados] = useState([]);
@@ -37,10 +37,11 @@ const BarChart = ({ apiUrl }) => {
 
         data.forEach((invitado) => {
           const date = new Date(invitado.created_at);
-          const day = date.getUTCDate() - 1;
-          if (day >= 0 && day < 31) {
-            counts[day] += 1;
-            invitadosPorDiaArray[day].push(invitado.nombreinv);
+          const day = date.getDate(); // Cambiar a getDate()
+          const dayIndex = day - 1; // Índice basado en el día del mes
+          if (dayIndex >= 0 && dayIndex < 31) {
+            counts[dayIndex] += 1;
+            invitadosPorDiaArray[dayIndex].push(invitado.nombreinv);
           }
         });
 
@@ -67,18 +68,6 @@ const BarChart = ({ apiUrl }) => {
 
     fetchData();
   }, [apiUrl]);
-
-  const handleClick = (event) => {
-    const chart = event.chart;
-    const elements = chart.getElementsAtEventForMode(event.event, 'nearest', { intersect: true }, true);
-    
-    if (elements.length > 0) {
-      const index = elements[0].index;
-      setSelectedDay(index + 1); // Establecer el día seleccionado (1-indexado)
-    } else {
-      setSelectedDay(null);
-    }
-  };
 
   // Preparar los datos para la gráfica de invitados más frecuentes
   const topInvitadosLabels = topInvitados.map(([nombre]) => nombre);
@@ -109,10 +98,19 @@ const BarChart = ({ apiUrl }) => {
         position: 'top',
       },
       tooltip: {
+<<<<<<< HEAD
         enabled: true // Deshabilitar tooltips predeterminados
+=======
+        callbacks: {
+          label: function(context) {
+            const day = context.label;
+            const nombres = invitadosPorDia[day - 1] || [];
+            return `Día ${day}: ${nombres.join(', ')}`;
+          }
+        }
+>>>>>>> af7f35293640bdee1fc0ba107c416de3bfa49329
       }
     },
-    onClick: handleClick,
     scales: {
       x: {
         title: {
@@ -130,16 +128,12 @@ const BarChart = ({ apiUrl }) => {
     }
   };
 
-  // Obtener información para el cuadro de detalles del día seleccionado
-  const detallesDia = selectedDay ? invitadosPorDia[selectedDay - 1] : [];
-  const detallesTexto = detallesDia.length > 0 ? 
-    `Invitados: ${detallesDia.join(', ')}` : 'No hay registros para este día.';
-
   return (
     <div className='bars'>
         <h2>Top 5 Invitados más frecuentes</h2>
         <Bar data={topInvitadosData} options={topInvitadosOptions} />
 
+<<<<<<< HEAD
         <br /><br /><br /><br />
 
         <h2>Registros de Invitados por Día</h2>
@@ -151,6 +145,10 @@ const BarChart = ({ apiUrl }) => {
           <p>{detallesTexto}</p>
         </div>
       )}
+=======
+      <h2>Registros de Invitados por Día</h2>
+      <Bar data={dataByDay} options={dataByDayOptions} />
+>>>>>>> af7f35293640bdee1fc0ba107c416de3bfa49329
     </div>
   );
 };
