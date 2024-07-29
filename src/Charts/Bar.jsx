@@ -98,7 +98,7 @@ const BarChart = ({ apiUrl }) => {
         position: 'top',
       },
       tooltip: {
-        enabled: false, // Deshabilitar tooltips predeterminados
+        enabled: true, // Deshabilitar tooltips predeterminados
         callbacks: {
           label: function(context) {
             const day = context.label;
