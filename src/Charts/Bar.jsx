@@ -133,7 +133,6 @@ const BarChart = ({ apiUrl }) => {
         <h2>Top 5 Invitados más frecuentes</h2>
         <Bar data={topInvitadosData} options={topInvitadosOptions} />
 
-<<<<<<< HEAD
         <br /><br /><br /><br />
 
         <h2>Registros de Invitados por Día</h2>
@@ -145,10 +144,6 @@ const BarChart = ({ apiUrl }) => {
           <p>{detallesTexto}</p>
         </div>
       )}
-=======
-      <h2>Registros de Invitados por Día</h2>
-      <Bar data={dataByDay} options={dataByDayOptions} />
->>>>>>> af7f35293640bdee1fc0ba107c416de3bfa49329
     </div>
   );
 };
