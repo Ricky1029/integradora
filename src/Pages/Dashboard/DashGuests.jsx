@@ -20,7 +20,9 @@ const Dashboard = () => {
           }
           return response.json();
         })
-        .then(data => setInvitados(data))
+        .then(data => {
+          setInvitados(data);
+        })
         .catch(error => console.error('Error fetching data:', error));
     }
   }, []);
@@ -54,7 +56,9 @@ const Dashboard = () => {
       const apiUrl = `https://api-mysql-s9hw.onrender.com/invitados/${nombreU}`;
       fetch(apiUrl)
         .then(response => response.json())
-        .then(data => setInvitados(data));
+        .then(data => {
+          setInvitados(data);
+        });
     })
     .catch(error => {
       console.error('Error:', error);
@@ -75,7 +79,9 @@ const Dashboard = () => {
       const apiUrl = `https://api-mysql-s9hw.onrender.com/invitados/${nombreU}`;
       fetch(apiUrl)
         .then(response => response.json())
-        .then(data => setInvitados(data));
+        .then(data => {
+          setInvitados(data);
+        });
     })
     .catch(error => {
       console.error('Error:', error);

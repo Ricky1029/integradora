@@ -7,6 +7,9 @@ ChartJS.register(CategoryScale, LinearScale, BarElement);
 
 const BarChart = ({ apiUrl }) => {
   const [topInvitados, setTopInvitados] = useState([]);
+  const [dataByDay, setDataByDay] = useState({ labels: [], datasets: [] });
+  const [invitadosPorDia, setInvitadosPorDia] = useState([]);
+  const [selectedDay, setSelectedDay] = useState(null); // Estado para el día seleccionado
 
   useEffect(() => {
     const fetchData = async () => {
@@ -14,19 +17,48 @@ const BarChart = ({ apiUrl }) => {
         const response = await fetch(apiUrl);
         const data = await response.json();
 
-        // Procesar los datos para contar las veces que aparece cada invitado
+        // Procesar datos para la gráfica de invitados más frecuentes
         const invitadosFrecuentes = {};
         data.forEach((invitado) => {
           const nombreInvitado = invitado.nombreinv;
           invitadosFrecuentes[nombreInvitado] = (invitadosFrecuentes[nombreInvitado] || 0) + 1;
         });
 
-        // Convertir el objeto a un array y ordenarlo por frecuencia
         const sortedInvitados = Object.entries(invitadosFrecuentes)
           .sort((a, b) => b[1] - a[1])
           .slice(0, 5); // Tomar solo los primeros 5
 
         setTopInvitados(sortedInvitados);
+
+        // Procesar datos para la gráfica de registros por día del mes
+        const counts = Array(31).fill(0);
+        const invitadosPorDiaArray = Array(31).fill(null).map(() => []);
+
+        data.forEach((invitado) => {
+          const date = new Date(invitado.created_at);
+          const day = date.getUTCDate() - 1;
+          if (day >= 0 && day < 31) {
+            counts[day] += 1;
+            invitadosPorDiaArray[day].push(invitado.nombreinv);
+          }
+        });
+
+        const labels = counts.map((_, index) => index + 1);
+        const dataset = {
+          label: 'Número de registros por día',
+          data: counts,
+          backgroundColor: 'rgba(75, 192, 192, 0.2)',
+          borderColor: 'rgba(75, 192, 192, 1)',
+          borderWidth: 1,
+        };
+
+        setDataByDay({
+          labels,
+          datasets: [dataset],
+        });
+
+        setInvitadosPorDia(invitadosPorDiaArray);
+
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -35,12 +67,24 @@ const BarChart = ({ apiUrl }) => {
     fetchData();
   }, [apiUrl]);
 
-  // Preparar los datos para el gráfico
-  const labels = topInvitados.map(([nombre]) => nombre);
-  const data = {
-    labels: labels,
+  const handleClick = (event) => {
+    const chart = event.chart;
+    const elements = chart.getElementsAtEventForMode(event.event, 'nearest', { intersect: true }, true);
+    
+    if (elements.length > 0) {
+      const index = elements[0].index;
+      setSelectedDay(index + 1); // Establecer el día seleccionado (1-indexado)
+    } else {
+      setSelectedDay(null);
+    }
+  };
+
+  // Preparar los datos para la gráfica de invitados más frecuentes
+  const topInvitadosLabels = topInvitados.map(([nombre]) => nombre);
+  const topInvitadosData = {
+    labels: topInvitadosLabels,
     datasets: [{
-      label: 'Invitados más frecuentes',
+      label: 'Top 5 Invitados más frecuentes',
       data: topInvitados.map(([_, frecuencia]) => frecuencia),
       backgroundColor: 'rgba(75, 192, 192, 0.2)',
       borderColor: 'rgba(75, 192, 192, 1)',
@@ -48,7 +92,7 @@ const BarChart = ({ apiUrl }) => {
     }]
   };
 
-  const options = {
+  const topInvitadosOptions = {
     scales: {
       y: {
         beginAtZero: true
@@ -56,10 +100,54 @@ const BarChart = ({ apiUrl }) => {
     }
   };
 
+  // Opciones para la gráfica de registros por día
+  const dataByDayOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+      tooltip: {
+        enabled: false // Deshabilitar tooltips predeterminados
+      }
+    },
+    onClick: handleClick,
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: 'Día del mes'
+        }
+      },
+      y: {
+        beginAtZero: true,
+        title: {
+          display: true,
+          text: 'Número de registros'
+        }
+      }
+    }
+  };
+
+  // Obtener información para el cuadro de detalles del día seleccionado
+  const detallesDia = selectedDay ? invitadosPorDia[selectedDay - 1] : [];
+  const detallesTexto = detallesDia.length > 0 ? 
+    `Invitados: ${detallesDia.join(', ')}` : 'No hay registros para este día.';
+
   return (
     <div>
       <h2>Top 5 Invitados más frecuentes</h2>
-      <Bar data={data} options={options} />
+      <Bar data={topInvitadosData} options={topInvitadosOptions} />
+
+      <h2>Registros de Invitados por Día</h2>
+      <Bar data={dataByDay} options={dataByDayOptions} />
+
+      {selectedDay !== null && (
+        <div className="detalle-dia">
+          <h3>Detalles del Día {selectedDay}</h3>
+          <p>{detallesTexto}</p>
+        </div>
+      )}
     </div>
   );
 };
