@@ -20,9 +20,9 @@ const Dashboard = () => {
       </div>
       <div className="content">
         <h1>Estado del Garaje</h1>
-        <h2>Está abierto :O</h2>
+        <h2>Abierto</h2>
         <div className="garage">
-            <img src="src/img/garage.jpg" alt="" />
+            <img src="src/img/garage abierto.png" alt="" />
         </div>
       </div>
     </div>
