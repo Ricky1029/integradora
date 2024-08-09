@@ -116,7 +116,7 @@ const Dashboard = () => {
               <img src="src/img/user.png" alt="" />
               <p>Nombre: {invitado.nombreinv}</p>
               <p>Codigo: {invitado.codigoa}</p>
-              <button onClick={() => handleDelete(invitado.idinvitado)}>Eliminar</button>
+              <button onClick={() => handleDelete(invitado.idinvitado)}>X</button>
             </div>
           ))}
         </div>

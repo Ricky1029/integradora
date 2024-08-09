@@ -1,44 +1,55 @@
-.login{
+.login {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     margin-top: 7%;
-    
-    h1{
-        color: black;
+  
+    h1 {
+      color: black;
+      font-size: 2rem; /* Ajusta el tamaño de fuente para que se adapte a pantallas más pequeñas */
     }
-    
-    p{
-        color: black;
-        margin-top: -20px;
+  
+    p {
+      color: black;
+      margin-top: -20px;
+      font-size: 1.5rem; /* Ajusta el tamaño de fuente para que se adapte a pantallas más pequeñas */
     }
-
-    form{
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
+  
+    form {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      max-width: 400px;
+      padding: 20px;
+      border-radius: 10px;
+  
+      @media (max-width: 768px) {
+        max-width: 300px; /* Ajusta el ancho máximo para pantallas más pequeñas */
+      }
+  
+      @media (max-width: 480px) {
+        max-width: 250px; /* Ajusta el ancho máximo para pantallas muy pequeñas */
+      }
+  
+      label {
         width: 100%;
-        max-width: 400px;
-        padding: 20px;
-        border-radius: 10px;
-
-        label{
-            width: 100%;
-            text-align: left;
-            margin-bottom: 10px;
-            margin-right: 23px;
-            color: black;
-            font-weight: bold;
-        }
-
-        input{
-            width: 100%;
-            padding: 15px;
-            margin-bottom: 10px;
-            border: 1px solid #000000;
-            font-size: 1rem;
-        }
+        text-align: left;
+        margin-bottom: 10px;
+        margin-right: 23px;
+        color: black;
+        font-weight: bold;
+        font-size: 1.2rem; /* Ajusta el tamaño de fuente para que se adapte a pantallas más pequeñas */
+      }
+  
+      input {
+        width: 100%;
+        padding: 15px;
+        margin-bottom: 10px;
+        border: 1px solid #000000;
+        font-size: 1.2rem; /* Ajusta el tamaño de fuente para que se adapte a pantallas más pequeñas */
+      }
     }
-}
+  }
