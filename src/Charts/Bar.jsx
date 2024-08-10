@@ -11,10 +11,12 @@ const BarChart = ({ apiUrl }) => {
   const [dataByDay, setDataByDay] = useState({ labels: [], datasets: [] });
   const [invitadosPorDia, setInvitadosPorDia] = useState([]);
   const [selectedDay, setSelectedDay] = useState(null); // Estado para el día seleccionado
+  const [topUsuarios, setTopUsuarios] = useState([]); // Estado para la gráfica de usuarios
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        // Obtener datos de la primera API
         const response = await fetch(apiUrl);
         const data = await response.json();
 
@@ -61,6 +63,22 @@ const BarChart = ({ apiUrl }) => {
 
         setInvitadosPorDia(invitadosPorDiaArray);
 
+        // Obtener y procesar datos para la gráfica de usuarios
+        const responseUsuarios = await fetch('https://api-mysql-s9hw.onrender.com/apertura/withUserNames');
+        const dataUsuarios = await responseUsuarios.json();
+
+        const usuariosFrecuentes = {};
+        dataUsuarios.forEach((registro) => {
+          const nombreUsuario = registro.nombre;
+          usuariosFrecuentes[nombreUsuario] = (usuariosFrecuentes[nombreUsuario] || 0) + 1;
+        });
+
+        const sortedUsuarios = Object.entries(usuariosFrecuentes)
+          .sort((a, b) => b[1] - a[1])
+          .slice(0, 3); // Tomar solo los primeros 3
+
+        setTopUsuarios(sortedUsuarios);
+
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -82,6 +100,19 @@ const BarChart = ({ apiUrl }) => {
     }]
   };
 
+  // Preparar los datos para la gráfica de usuarios más frecuentes
+  const topUsuariosLabels = topUsuarios.map(([nombre]) => nombre);
+  const topUsuariosData = {
+    labels: topUsuariosLabels,
+    datasets: [{
+      label: 'Top 3 Usuarios que más abren la puerta',
+      data: topUsuarios.map(([_, frecuencia]) => frecuencia),
+      backgroundColor: ['rgba(0, 255, 0, 0.2)', 'rgba(255, 255, 0, 0.2)', 'rgba(255, 0, 0, 0.2)'],
+      borderColor: ['rgba(0, 255, 0, 1)', 'rgba(255, 255, 0, 1)', 'rgba(255, 0, 0, 1)'],
+      borderWidth: 1
+    }]
+  };
+
   const topInvitadosOptions = {
     scales: {
       y: {
@@ -90,7 +121,6 @@ const BarChart = ({ apiUrl }) => {
     }
   };
 
-  // Opciones para la gráfica de registros por día
   const dataByDayOptions = {
     responsive: true,
     plugins: {
@@ -125,6 +155,18 @@ const BarChart = ({ apiUrl }) => {
     }
   };
 
+  const topUsuariosOptions = {
+    scales: {
+      y: {
+        beginAtZero: true,
+        title: {
+          display: true,
+          text: 'Número de aperturas'
+        }
+      }
+    }
+  };
+
   return (
     <div className='bars'>
         <h2>Top 5 Invitados más frecuentes</h2>
@@ -134,6 +176,11 @@ const BarChart = ({ apiUrl }) => {
 
         <h2>Registros de Invitados por Día</h2>
         <Bar data={dataByDay} options={dataByDayOptions} />
+
+        <br /><br /><br /><br />
+
+        <h2>Top 3 Usuarios que más abren la puerta</h2>
+        <Bar data={topUsuariosData} options={topUsuariosOptions} />
 
       {selectedDay !== null && (
         <div className="detalle-dia">
