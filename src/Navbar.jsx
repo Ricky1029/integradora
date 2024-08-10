@@ -53,7 +53,7 @@ const Navbar = () => {
           </div>
           <div className="navbar__hamburger">
             <button onClick={handleToggleMenu}>
-              <i className="fas fa-bars"></i>
+              <span>Menu</span>
             </button>
             {showMenu && (
               <div className="navbar__menu">
