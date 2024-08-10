@@ -10,13 +10,12 @@ const BarChart = ({ apiUrl }) => {
   const [topInvitados, setTopInvitados] = useState([]);
   const [dataByDay, setDataByDay] = useState({ labels: [], datasets: [] });
   const [invitadosPorDia, setInvitadosPorDia] = useState([]);
-  const [selectedDay, setSelectedDay] = useState(null); // Estado para el día seleccionado
-  const [topUsuarios, setTopUsuarios] = useState([]); // Estado para la gráfica de usuarios
+  const [topUsuarios, setTopUsuarios] = useState([]);
+  const [recentRecords, setRecentRecords] = useState([]); // Estado para la tabla de registros recientes
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Obtener datos de la primera API
         const response = await fetch(apiUrl);
         const data = await response.json();
 
@@ -29,7 +28,7 @@ const BarChart = ({ apiUrl }) => {
 
         const sortedInvitados = Object.entries(invitadosFrecuentes)
           .sort((a, b) => b[1] - a[1])
-          .slice(0, 5); // Tomar solo los primeros 5
+          .slice(0, 5);
 
         setTopInvitados(sortedInvitados);
 
@@ -39,8 +38,8 @@ const BarChart = ({ apiUrl }) => {
 
         data.forEach((invitado) => {
           const date = new Date(invitado.created_at);
-          const day = date.getDate(); // Cambiar a getDate()
-          const dayIndex = day - 1; // Índice basado en el día del mes
+          const day = date.getDate();
+          const dayIndex = day - 1;
           if (dayIndex >= 0 && dayIndex < 31) {
             counts[dayIndex] += 1;
             invitadosPorDiaArray[dayIndex].push(invitado.nombreinv);
@@ -75,9 +74,23 @@ const BarChart = ({ apiUrl }) => {
 
         const sortedUsuarios = Object.entries(usuariosFrecuentes)
           .sort((a, b) => b[1] - a[1])
-          .slice(0, 3); // Tomar solo los primeros 3
+          .slice(0, 3);
 
         setTopUsuarios(sortedUsuarios);
+
+        // Ordenar por fecha y hora de forma separada
+        let sortedRecentRecords = dataUsuarios
+          .sort((a, b) => {
+            const dateA = new Date(a.fecha).getTime();
+            const dateB = new Date(b.fecha).getTime();
+            const timeA = a.hora.split(':').reduce((acc, time) => (60 * acc) + +time);
+            const timeB = b.hora.split(':').reduce((acc, time) => (60 * acc) + +time);
+            return (dateB - dateA) || (timeB - timeA);
+          })
+          .slice(0, 10); // Obtener los 10 registros más recientes
+
+        // Actualizar el estado de registros recientes
+        setRecentRecords(sortedRecentRecords);
 
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -87,7 +100,13 @@ const BarChart = ({ apiUrl }) => {
     fetchData();
   }, [apiUrl]);
 
-  // Preparar los datos para la gráfica de invitados más frecuentes
+  useEffect(() => {
+    // Si el número de registros recientes supera 10, eliminar el más antiguo
+    if (recentRecords.length > 10) {
+      setRecentRecords(recentRecords.slice(-10));
+    }
+  }, [recentRecords]);
+
   const topInvitadosLabels = topInvitados.map(([nombre]) => nombre);
   const topInvitadosData = {
     labels: topInvitadosLabels,
@@ -100,7 +119,6 @@ const BarChart = ({ apiUrl }) => {
     }]
   };
 
-  // Preparar los datos para la gráfica de usuarios más frecuentes
   const topUsuariosLabels = topUsuarios.map(([nombre]) => nombre);
   const topUsuariosData = {
     labels: topUsuariosLabels,
@@ -128,7 +146,7 @@ const BarChart = ({ apiUrl }) => {
         position: 'top',
       },
       tooltip: {
-        enabled: true, // Deshabilitar tooltips predeterminados
+        enabled: true,
         callbacks: {
           label: function(context) {
             const day = context.label;
@@ -182,12 +200,27 @@ const BarChart = ({ apiUrl }) => {
         <h2>Top 3 Usuarios que más abren la puerta</h2>
         <Bar data={topUsuariosData} options={topUsuariosOptions} />
 
-      {selectedDay !== null && (
-        <div className="detalle-dia">
-          <h3>Detalles del Día {selectedDay}</h3>
-          <p>{detallesTexto}</p>
-        </div>
-      )}
+        <br /><br /><br /><br />
+
+        <h2>Últimos 10 registros de aperturas</h2>
+        <table className='recent-records-table'>
+          <thead>
+            <tr>
+              <th>Fecha</th>
+              <th>Hora</th>
+              <th>Nombre</th>
+            </tr>
+          </thead>
+          <tbody>
+            {recentRecords.map((record, index) => (
+              <tr key={index}>
+                <td>{new Date(record.fecha).toLocaleDateString()}</td>
+                <td>{record.hora}</td>
+                <td>{record.nombre}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
     </div>
   );
 };
