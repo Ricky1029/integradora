@@ -49,6 +49,7 @@
   flex-grow: 4;
   padding: 20px;
   background-color: white;
+  max-width: 90%;
   max-height: 87vh;
   display: flex;
   flex-direction: column;
@@ -188,13 +189,13 @@
   .dashboard .list {
     width: 100%;
     height: auto;
-    margin-top: 0;
+    margin-top: 60px; /* Ajusta el margen superior para evitar que la navbar cubra el contenido */
+    padding: 5px;
   }
 
   .dashboard .content {
     margin-top: 0;
-    flex: 1;
-    flex-grow: 1;
+    
   }
 
   .dashboard .content .garage img {
