@@ -9,6 +9,7 @@ const Dashboard = () => {
   const [garageStatus, setGarageStatus] = useState(null);
 
   useEffect(() => {
+    // Lógica para obtener el estado de la puerta desde la API
     const fetchGarageStatus = async () => {
       try {
         const response = await fetch('https://api-mysql-s9hw.onrender.com/puertaS');
