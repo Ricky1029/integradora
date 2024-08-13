@@ -6,17 +6,14 @@ import BarChart from '../../Charts/Bar';
 
 const Dashboard = () => {
   const [username, setUsername] = useState('Usuario');
+  const [claveU, setClaveU] = useState(null);  
   const [garageStatus, setGarageStatus] = useState(null);
 
   useEffect(() => {
-    // Lógica para obtener el estado de la puerta desde la API
     const fetchGarageStatus = async () => {
       try {
         const response = await fetch('https://api-mysql-s9hw.onrender.com/puertaS');
         const data = await response.json();
-        console.log('Data from API:', data); // Verifica los datos recibidos
-
-        // Accediendo al primer objeto del array y obteniendo el status
         const status = data[0]?.status;
         setGarageStatus(status);
       } catch (error) {
@@ -24,7 +21,30 @@ const Dashboard = () => {
       }
     };
 
+    const fetchClaveU = async () => {
+      const userData = JSON.parse(localStorage.getItem('userData'));
+      
+      if (userData && userData.usuario && userData.usuario.nombre) {
+        const nombreU = userData.usuario.nombre;
+        const claveUApiUrl = `https://api-mysql-s9hw.onrender.com/usuarios/clave/${nombreU}`;
+
+        try {
+          const response = await fetch(claveUApiUrl);
+          const data = await response.json();
+          if (data && data.claveU) {
+            setClaveU(data.claveU);
+            setUsername(nombreU);
+          } else {
+            console.error('Usuario no encontrado o sin claveU');
+          }
+        } catch (error) {
+          console.error('Error al obtener la claveU:', error);
+        }
+      }
+    };
+
     fetchGarageStatus();
+    fetchClaveU();
 
     const intervalId = setInterval(fetchGarageStatus, 5000);
 
@@ -39,7 +59,15 @@ const Dashboard = () => {
         <Link to="/guests"><img src="src/img/invitado.png" alt="Invitados" />Invitados</Link>
       </div>
       <div className="content">
-        <h1>Estado del Garaje</h1>
+        {claveU && (
+          <div className="clave-box">
+            <h1 className="clave-title">Clave Única: {claveU}</h1>
+            <p className="clave-description">
+              Esta clave es única y se utiliza para registrar tu rostro dentro del sistema del porton.
+            </p>
+          </div>
+        )}
+        <h2>Estado del Garaje</h2>
         <h2>{garageStatus === 0 ? 'Cerrado' : 'Abierto'}</h2>
         <div className="garage">
           <img 
