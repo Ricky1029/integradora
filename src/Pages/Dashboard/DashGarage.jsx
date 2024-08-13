@@ -25,6 +25,10 @@ const Dashboard = () => {
     };
 
     fetchGarageStatus();
+
+    const intervalId = setInterval(fetchGarageStatus, 5000);
+
+    return () => clearInterval(intervalId);
   }, []);
 
   return (
@@ -36,11 +40,11 @@ const Dashboard = () => {
       </div>
       <div className="content">
         <h1>Estado del Garaje</h1>
-        <h2>{garageStatus === 1 ? 'Cerrado' : 'Abierto'}</h2>
+        <h2>{garageStatus === 0 ? 'Cerrado' : 'Abierto'}</h2>
         <div className="garage">
           <img 
-            src={garageStatus === 1 ? 'src/img/garage cerrado.png' : 'src/img/garage abierto.png'} 
-            alt={garageStatus === 1 ? 'Garaje Cerrado' : 'Garaje Abierto'} 
+            src={garageStatus === 0 ? 'src/img/garage cerrado.png' : 'src/img/garage abierto.png'} 
+            alt={garageStatus === 0 ? 'Garaje Cerrado' : 'Garaje Abierto'} 
           />
         </div>
       </div>

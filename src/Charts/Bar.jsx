@@ -97,7 +97,14 @@ const BarChart = ({ apiUrl }) => {
       }
     };
 
+    // Llamar a la función de obtención de datos inicialmente
     fetchData();
+
+    // Configurar un intervalo para actualizar los datos cada 10 segundos
+    const intervalId = setInterval(fetchData, 10000);
+
+    // Limpiar el intervalo cuando el componente se desmonte
+    return () => clearInterval(intervalId);
   }, [apiUrl]);
 
   useEffect(() => {
