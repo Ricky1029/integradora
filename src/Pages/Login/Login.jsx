@@ -32,6 +32,7 @@ const Login = () => {
         localStorage.setItem('userData', JSON.stringify(userData));
         localStorage.setItem('token', 'some-token');
         navigate('/dashboard', { state: { logged: true } });
+        window.location.reload()
       } else {
         const errorData = await response.json();
         setMensajeError(errorData.message || 'Error al iniciar sesión');

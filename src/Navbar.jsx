@@ -8,14 +8,9 @@ const Navbar = () => {
   const [showMenu, setShowMenu] = useState(false); // Estado para mostrar u ocultar el menú
 
   useEffect(() => {
-    // Verificar si el usuario está logueado
-    const token = localStorage.getItem('token');
-    if (token) {
-      setIsLoggedIn(true);
-    } else {
-      setIsLoggedIn(false);
-    }
+    setIsLoggedIn(!!localStorage.getItem('token'));
   }, []);
+  
 
   const navDashboard = (e) => {
     e.preventDefault();
