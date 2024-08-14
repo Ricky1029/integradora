@@ -76,11 +76,19 @@ body {
 
 .body-login {
   height: 40vh;
+  background-image: url('src/img/bg.png');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
 }
 
 .body-register {
   height: 100vh;
   width: 70%;
+  background-image: url('src/img/bg.png');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
 }
 
 h1 {
